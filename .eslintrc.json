@@ -80,7 +80,7 @@
         "newlines-between": "never"
       }
     ],
-    "react/self-closing-comp": "warn",
+    "react/self-closing-comp": "never",
     "react/jsx-sort-props": [
       "warn",
       {
