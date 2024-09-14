@@ -1,21 +1,32 @@
 "use client";
 
+import FXForm from "@/src/components/form/FXForm";
+import FXInput from "@/src/components/form/FXInput";
 import { Button } from "@nextui-org/button";
-import { Input } from "@nextui-org/input";
 import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import loginValidationSchema from "@/src/schemas/login.schemas";
+import { FieldValues } from "react-hook-form";
 
 const Login = () => {
+  const onSubmit = (data: FieldValues) => {
+    console.log(data);
+  };
+
   return (
     <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center ">
       <h3 className="my-2 text-2xl font-bold">Login with FoundX</h3>
       <p>Welcome Back! Let&lsquo;s Get Started</p>
       <div className="w-[35%]">
-        <form>
+        <FXForm
+          onSubmit={onSubmit}
+          resolver={zodResolver(loginValidationSchema)}
+        >
           <div className="py-3">
-            <Input type="text" />
+            <FXInput name="email" type="email" label="Email" />
           </div>
           <div className="py-3">
-            <Input type="text" />
+            <FXInput name="password" type="password" label="Password" />
           </div>
 
           <Button
@@ -25,7 +36,7 @@ const Login = () => {
           >
             Login
           </Button>
-        </form>
+        </FXForm>
         <div className="text-center">
           Don&lsquo;t have an account? <Link href={"/register"}>Register</Link>
         </div>

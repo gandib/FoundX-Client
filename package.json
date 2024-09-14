@@ -9,6 +9,7 @@
 		"lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
 	},
 	"dependencies": {
+		"@hookform/resolvers": "^3.9.0",
 		"@nextui-org/avatar": "^2.0.32",
 		"@nextui-org/button": "2.0.37",
 		"@nextui-org/card": "^2.0.33",
@@ -27,6 +28,8 @@
 		"@nextui-org/theme": "2.2.9",
 		"@react-aria/ssr": "3.9.4",
 		"@react-aria/visually-hidden": "3.8.12",
+		"@tanstack/react-query": "^5.56.2",
+		"@tanstack/react-query-devtools": "^5.56.2",
 		"axios": "^1.7.7",
 		"clsx": "2.1.1",
 		"date-fns": "^3.6.0",
