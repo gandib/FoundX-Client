@@ -9,13 +9,30 @@ import loginValidationSchema from "@/src/schemas/login.schemas";
 import { FieldValues } from "react-hook-form";
 import { useUserlogin } from "@/src/hooks/auth.hook";
 import Loading from "@/src/components/UI/Loading";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/src/context/user.provider";
 
 const Login = () => {
-  const { mutate: handleUserLogin, isPending } = useUserlogin();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+  const router = useRouter();
+  const { setIsLoading } = useUser();
+
+  console.log(redirect);
+  const { mutate: handleUserLogin, isPending, isSuccess } = useUserlogin();
 
   const onSubmit = (data: FieldValues) => {
     handleUserLogin(data);
+    setIsLoading(true);
   };
+
+  if (!isPending && isSuccess) {
+    if (redirect) {
+      router.push(redirect);
+    } else {
+      router.push("/");
+    }
+  }
 
   return (
     <>

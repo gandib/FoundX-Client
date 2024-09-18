@@ -1,6 +1,7 @@
 "use server";
 
 import axiosInstance from "@/src/lib/AxiosInstance";
+import { IUser } from "@/src/types";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
@@ -46,9 +47,14 @@ export const loginUser = async (userData: FieldValues) => {
   }
 };
 
+export const logout = () => {
+  cookies().delete("accessToken");
+  cookies().delete("refreshToken");
+};
+
 export const getCurrentUser = async () => {
   const accessToken = cookies().get("accessToken")?.value;
-  let decodedToken = null;
+  let decodedToken: IUser | null = null;
 
   if (accessToken) {
     decodedToken = await jwtDecode(accessToken);
@@ -59,6 +65,7 @@ export const getCurrentUser = async () => {
       mobileNumber: decodedToken?.mobileNumber,
       role: decodedToken?.role,
       status: decodedToken?.status,
+      profilePhoto: decodedToken?.profilePhoto,
     };
   }
 

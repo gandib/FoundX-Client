@@ -14,12 +14,7 @@ const roleBaseRoutes = {
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  console.log(pathname);
-  //   const user = {
-  //     name: "Gandib",
-  //     token: "fsfdsaf",
-  //     role: "USER",
-  //   };
+
   const user = await getCurrentUser();
   console.log(user);
 
@@ -27,7 +22,9 @@ export async function middleware(request: NextRequest) {
     if (AuthRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(
+        new URL(`/login?redirect=${pathname}`, request.url)
+      );
     }
   }
 
@@ -44,5 +41,5 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/profile", "/admin", "/login", "/register"],
+  matcher: ["/profile", "/profile/:page*", "/admin", "/login", "/register"],
 };

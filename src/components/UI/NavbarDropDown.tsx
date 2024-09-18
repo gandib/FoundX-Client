@@ -1,4 +1,6 @@
 "use client";
+import { useUser } from "@/src/context/user.provider";
+import { logout } from "@/src/services/AuthService";
 import { Avatar } from "@nextui-org/avatar";
 import {
   Dropdown,
@@ -10,15 +12,22 @@ import { useRouter } from "next/navigation";
 
 const NavbarDropDown = () => {
   const router = useRouter();
+  const { user, setIsLoading } = useUser();
 
   const handleNavigation = (pathname: string) => {
     router.push(pathname);
   };
 
+  const handleLogout = () => {
+    logout();
+    setIsLoading(true);
+    router.push("/login");
+  };
+
   return (
     <Dropdown>
       <DropdownTrigger>
-        <Avatar className="cursor-pointer" name="Joe" />
+        <Avatar className="cursor-pointer" src={user?.profilePhoto} />
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
         <DropdownItem onClick={() => handleNavigation("/profile")}>
@@ -30,7 +39,13 @@ const NavbarDropDown = () => {
         <DropdownItem onClick={() => handleNavigation("/profile/create-post")}>
           Create Post
         </DropdownItem>
-        <DropdownItem key="delete" className="text-danger" color="danger">
+
+        <DropdownItem
+          onClick={handleLogout}
+          key="delete"
+          className="text-danger"
+          color="danger"
+        >
           Logout
         </DropdownItem>
       </DropdownMenu>
