@@ -13,12 +13,12 @@ const Sidebar = () => {
   return (
     <div>
       <div className="rounded-xl bg-default-100 p-2">
-        <div className="h-[330px] w-full rounded-md flex justify-center items-center">
+        <div className="h-[330px] w-full rounded-md ">
           <Image
             src={user?.profilePhoto as string}
-            alt={user?.name!}
-            height={330}
-            width={330}
+            alt="Profile"
+            height={100}
+            width={100}
             className="rounded-xl"
           />
         </div>

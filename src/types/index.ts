@@ -56,3 +56,13 @@ export interface ICurrentUser {
   iat: number;
   exp: number;
 }
+
+export interface IInput {
+  varient?: "flat" | "bordered" | "faded" | "underlined";
+  size?: "sm" | "md" | "lg";
+  required?: boolean;
+  type?: string;
+  label: string;
+  name: string;
+  disabled?: boolean;
+}
