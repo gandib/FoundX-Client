@@ -7,6 +7,8 @@ import { Calendar, MapPin } from "lucide-react";
 import Link from "next/link";
 import ImageGallery from "./ImageGallery";
 import ClaimRequestModal from "../../modals/ClaimRequestModal";
+import { useUser } from "@/src/context/user.provider";
+import AuthenticationModal from "../../modals/AuthenticationModal";
 
 interface IProps {
   post: IItem;
@@ -26,6 +28,9 @@ const Post = ({ post }: IProps) => {
   } = post || {};
 
   const { name, email, profilePhoto } = (user as IUser) || {};
+
+  const { user: loggedInUser } = useUser();
+
   return (
     <div className="mb-2 rounded-md bg-default-100 p-4">
       <div className="border-b border-default-200 pb-2">
@@ -62,8 +67,17 @@ const Post = ({ post }: IProps) => {
         <ImageGallery images={images} />
 
         <div className="mt-4 flex gap-5">
-          <ClaimRequestModal id={_id} questions={questions} />
-          <div className="w-[1px] bg-default-200" />
+          {email !== loggedInUser?.email && (
+            <>
+              {loggedInUser?.email && (
+                <ClaimRequestModal id={_id} questions={questions} />
+              )}
+              {!loggedInUser?.email && <AuthenticationModal id={_id} />}
+            </>
+          )}
+          {email !== loggedInUser?.email && (
+            <div className="w-[1px] bg-default-200" />
+          )}
           <Button variant="light" className="flex-1">
             Share
           </Button>
