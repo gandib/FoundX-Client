@@ -71,3 +71,26 @@ export const getCurrentUser = async () => {
 
   return decodedToken;
 };
+
+export const getNewAccessToken = async () => {
+  try {
+    const refreshToken = cookies().get("refreshToken")?.value;
+
+    const { data } = await axiosInstance({
+      url: `/auth/refresh-token`,
+      method: "POST",
+      withCredentials: true,
+      headers: {
+        cookies: `refreshToken=${refreshToken}`,
+      },
+    });
+
+    return data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error?.response?.data?.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};

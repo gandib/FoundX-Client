@@ -9,6 +9,7 @@ import Loading from "@/src/components/UI/Loading";
 import { useUser } from "@/src/context/user.provider";
 import { useGetCategories } from "@/src/hooks/categories.hook";
 import { useCreatePost } from "@/src/hooks/post.hook";
+import generateDescription from "@/src/services/ImageDescription";
 import { ICategory } from "@/src/types";
 import dateToISO from "@/src/utils/dateToISO";
 import { allDistict } from "@bangladeshi/bangladesh-address";
@@ -35,6 +36,9 @@ const page = () => {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreviews, setImagePreviews] = useState<string[] | []>([]);
   const { user } = useUser();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const {
     mutate: handleCreatePost,
     isPending: createPostPending,
@@ -101,6 +105,23 @@ const page = () => {
       };
 
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDescriptionGeneration = async () => {
+    setIsLoading(true);
+    try {
+      const response = await generateDescription(
+        imagePreviews[0],
+        "write a description for social media post describing the given image that starts with 'Found this ...'"
+      );
+      console.log(response);
+      methods.setValue("description", response);
+      setIsLoading(false);
+    } catch (error: any) {
+      console.error(error);
+      setError(error.message);
+      setIsLoading(false);
     }
   };
 
@@ -180,6 +201,20 @@ const page = () => {
               <div className="min-w-fit flex-1">
                 <FXTextarea label="Description" name="description" />
               </div>
+            </div>
+            <div className="flex justify-end gap-5">
+              {methods.getValues("description") && (
+                <Button onClick={() => methods.resetField("description")}>
+                  Clear
+                </Button>
+              )}
+              <Button
+                isDisabled={imagePreviews.length > 0 ? false : true}
+                onClick={() => handleDescriptionGeneration()}
+                isLoading={isLoading}
+              >
+                {isLoading ? "Generating..." : "Generate With AI"}
+              </Button>
             </div>
 
             <Divider className="my-5" />

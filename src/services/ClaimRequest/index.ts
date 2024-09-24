@@ -19,3 +19,38 @@ export const addClaimRequest = async (
     }
   }
 };
+
+export const updateClaimRequestStatus = async (
+  claimRequestStatus: FieldValues
+): Promise<any> => {
+  try {
+    const { data } = await axiosInstance.put(
+      `/claim-request/${claimRequestStatus.id}`,
+      claimRequestStatus.data
+    );
+
+    return data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error?.response?.data?.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};
+
+export const getReceivedClaimRequest = async () => {
+  try {
+    const { data } = await axiosInstance.get(
+      "/claim-request/received-claim-request"
+    );
+
+    return data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error?.response?.data?.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};

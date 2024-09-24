@@ -31,7 +31,7 @@ export default function FXModal({
   buttonVarient = "light",
   buttonClassName,
 }: IProps) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   return (
     <>
