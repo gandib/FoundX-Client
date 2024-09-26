@@ -125,8 +125,6 @@ const page = () => {
     }
   };
 
-  const gg = "sfsf";
-
   if (!createPostPending && createPostSuccess) {
     router.push("/");
   }
